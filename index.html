@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Riddle Code Input</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Cinzel', serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: url('images/medieval.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            overflow: hidden;
+            position: relative;
+        }
+        .container {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.7); /* Dark semi-transparent background */
+            padding: 20px 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            max-width: 90%;
+        }
+        input {
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            width: 100%;
+            border: 2px solid #fff;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            box-sizing: border-box;
+        }
+        input::placeholder {
+            color: #ddd;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: 2px solid #fff;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            transition: transform 0.3s ease, background-color 0.3s ease; /* Add transitions */
+        }
+        button:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+            transform: scale(1.1); /* Add scale transform */
+        }
+        .riddle {
+            margin-top: 20px;
+            font-size: 20px;
+        }
+        .error {
+            color: red;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        .timer {
+            color: yellow;
+            font-size: 16px;
+            margin-top: 10px;
+            display: none;
+        }
+        .back-arrow {
+            font-size: 24px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: #fff;
+            transition: transform 0.3s ease, color 0.3s ease; /* Add transitions */
+        }
+        .back-arrow:hover {
+            color: #ddd;
+            transform: scale(1.1); /* Add scale transform */
+        }
+        .question-container, .answer-container {
+            display: none;
+        }
+        #fireworks {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1000;
+            display: none; /* Hidden by default */
+        }
+        .firework {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: radial-gradient(circle, red, transparent);
+            border-radius: 50%;
+            animation: explode 3s forwards; /* Increase duration */
+        }
+        @keyframes explode {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+        #flash {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: white;
+            opacity: 0;
+            z-index: 999;
+            pointer-events: none;
+            animation: flash 0.5s ease-out;
+            display: none;
+        }
+        @keyframes flash {
+            0% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+        #congratsMessage {
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 3em;
+            color: yellow;
+            text-shadow: 2px 2px 5px black;
+            z-index: 1001;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="congratsMessage">Gratulacje!</div> <!-- Congrats message -->
+    <div class="container" id="inputContainer">
+        <h1>Wpisz swój klucz</h1>
+        <input type="text" id="codeInput" placeholder="Wpisz tutaj swój klucz">
+        <button onclick="redirectToRiddle()">Sprawdź</button>
+        <div class="error" id="errorMessage" style="display: none;">Nieprawidłowy kod, spróbuj ponownie.</div>
+        <div class="timer" id="timer"></div>
+    </div>
+    <div class="container" id="riddleContainer" style="display: none;">
+        <div class="riddle" id="riddleDisplay"></div>
+        <button class="back-arrow" onclick="goBack()">&#8592;</button> <!-- Unicode left arrow -->
+    </div>
+    <div class="container question-container" id="questionContainer">
+        <h1>Co najbardziej skupia uwagę w okolicy Grodu na Górze birów?</h1>
+        <input type="text" id="answerInput" placeholder="Wpisz swoją odpowiedź">
+        <button onclick="checkAnswer()">Sprawdź</button>
+        <div class="response" id="responseDisplay" style="display: none;"></div>
+        <button class="back-arrow" onclick="goBackFromQuestion()">&#8592;</button> <!-- Unicode left arrow -->
+    </div>
+    <div id="fireworks"></div> <!-- Fireworks container -->
+    <div id="flash"></div> <!-- Flash effect -->
+
+    <script src="script.js"></script>
+</body>
+</html>
